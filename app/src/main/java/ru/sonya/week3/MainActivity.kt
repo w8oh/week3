@@ -1,5 +1,6 @@
 package ru.sonya.week3
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.RecyclerView
@@ -27,5 +28,11 @@ class MainActivity : AppCompatActivity() {
         catAdapter = CatAdapter(catList)
         recyclerView.layoutManager = manager
         recyclerView.adapter = catAdapter
+
+        catAdapter.onItemClick = {
+            val intent = Intent(this, AboutOneCat::class.java)
+            intent.putExtra("cat", it)
+            startActivity(intent)
+        }
     }
 }

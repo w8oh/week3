@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 class CatAdapter (private val catList:ArrayList<FunCats>): RecyclerView.Adapter<CatAdapter.CatViewHolder>()
 {
 
+    var onItemClick: ((FunCats) -> Unit)? = null
     class CatViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val imageView: ImageView = itemView.findViewById(R.id.imageView)
         val textView1: TextView = itemView.findViewById(R.id.textView1)
@@ -30,5 +31,9 @@ class CatAdapter (private val catList:ArrayList<FunCats>): RecyclerView.Adapter<
         holder.imageView.setImageResource(cat.image)
         holder.textView1.text = cat.title
         holder.textView2.text = cat.subtitle
+
+        holder.itemView.setOnClickListener{
+            onItemClick?.invoke(cat)
+        }
     }
 }

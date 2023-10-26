@@ -15,7 +15,7 @@ class AboutOneCat : AppCompatActivity() {
 
     companion object {
 
-        const val cat: String="cat"
+        private const val CAT = "cat"
         fun putString(): Intent {
            this.putExtra(cat, this)
            return  this

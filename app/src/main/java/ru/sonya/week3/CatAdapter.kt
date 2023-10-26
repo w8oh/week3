@@ -9,10 +9,11 @@ import androidx.recyclerview.widget.RecyclerView
 
 class CatAdapter (): RecyclerView.Adapter<CatAdapter.CatViewHolder>()
 {
-   var  catList:MutableList<FunCats> = mutableListOf()
-       set(value) {
-           field = value
-       }
+       var catList = listOf<FunCats>()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
 
     var onItemClick: ((FunCats) -> Unit)? = null
 

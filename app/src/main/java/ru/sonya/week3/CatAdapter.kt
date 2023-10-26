@@ -19,9 +19,9 @@ class CatAdapter (): RecyclerView.Adapter<CatAdapter.CatViewHolder>()
 
     inner class CatViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
 
-        val imageView: ImageView = itemView.findViewById(R.id.imageView)
-        val textView1: TextView = itemView.findViewById(R.id.textView1)
-        val textView2: TextView = itemView.findViewById(R.id.textView2)
+        private val imageView: ImageView = itemView.findViewById(R.id.imageView)
+        private val textView1: TextView = itemView.findViewById(R.id.textView1)
+        private val textView2: TextView = itemView.findViewById(R.id.textView2)
 
         fun bind(position: Int) {
             val cat = catList[position]

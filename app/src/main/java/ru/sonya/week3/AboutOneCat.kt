@@ -1,5 +1,6 @@
 package ru.sonya.week3
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.BlendMode
 import android.graphics.BlendModeColorFilter
@@ -40,13 +41,7 @@ class AboutOneCat : AppCompatActivity() {
             setDisplayShowHomeEnabled(true)
         }
 
-        toolbar?.navigationIcon?.apply {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                colorFilter = BlendModeColorFilter(Color.WHITE, BlendMode.SRC_IN)
-            } else {
-                setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
-            }
-        }
+        toolbar?.getNavigationIcon()?.setTint(getColor(R.color.white));
 
         if (cat !=null) {
             val textView2: TextView = findViewById(R.id.OneSubtitle)

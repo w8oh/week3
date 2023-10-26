@@ -13,7 +13,7 @@ import android.widget.TextView
 
 class AboutOneCat : AppCompatActivity() {
 
-    companion object CAT : Intent() {
+    companion object {
 
         const val cat: String="cat"
         fun putString(): Intent {

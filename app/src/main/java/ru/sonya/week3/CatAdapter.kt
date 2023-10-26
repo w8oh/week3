@@ -7,14 +7,35 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class CatAdapter (private val catList:ArrayList<FunCats>): RecyclerView.Adapter<CatAdapter.CatViewHolder>()
+class CatAdapter (): RecyclerView.Adapter<CatAdapter.CatViewHolder>()
 {
+   var  catList:MutableList<FunCats> = mutableListOf()
+       set(value) {
+           field = value
+       }
 
     var onItemClick: ((FunCats) -> Unit)? = null
-    class CatViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+
+    inner class CatViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+
         val imageView: ImageView = itemView.findViewById(R.id.imageView)
         val textView1: TextView = itemView.findViewById(R.id.textView1)
         val textView2: TextView = itemView.findViewById(R.id.textView2)
+
+        fun bind(position: Int) {
+            val cat = catList[position]
+            this.imageView.setImageResource(cat.image)
+            this.textView1.text = cat.title
+            this.textView2.text = cat.subtitle
+
+            this.itemView.setOnClickListener{
+                onItemClick?.invoke(cat)
+            }
+        }
+
+        fun unbind() {
+            this.itemView.setOnClickListener(null)
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CatViewHolder {
@@ -26,14 +47,6 @@ class CatAdapter (private val catList:ArrayList<FunCats>): RecyclerView.Adapter<
         return catList.size
     }
 
-    override fun onBindViewHolder(holder: CatViewHolder, position: Int) {
-        val cat = catList[position]
-        holder.imageView.setImageResource(cat.image)
-        holder.textView1.text = cat.title
-        holder.textView2.text = cat.subtitle
-
-        holder.itemView.setOnClickListener{
-            onItemClick?.invoke(cat)
-        }
-    }
+    override fun onViewRecycled(holder: CatViewHolder) = holder.unbind()
+    override fun onBindViewHolder(holder: CatViewHolder, position: Int) = holder.bind(position)
 }

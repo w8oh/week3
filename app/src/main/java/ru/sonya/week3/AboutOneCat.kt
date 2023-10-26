@@ -31,7 +31,7 @@ class AboutOneCat : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_about_one_cat)
 
-        val toolbar: androidx.appcompat.widget.Toolbar? = findViewById(R.id.toolbar2)
+        val toolbar: androidx.appcompat.widget.Toolbar = findViewById(R.id.toolbar2)
 
         setSupportActionBar(toolbar)
 

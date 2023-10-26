@@ -16,9 +16,10 @@ class AboutOneCat : AppCompatActivity() {
     companion object {
 
         private const val CAT = "cat"
-        fun putString(): Intent {
-           this.putExtra(cat, this)
-           return  this
+        fun createIntent(context: Context, cat: FunCats): Intent {
+            return Intent(context, AboutOneCat::class.java).apply {
+                putExtra(CAT, cat)
+            }
         }
 
     }

@@ -34,9 +34,7 @@ class MainActivity : AppCompatActivity() {
         recyclerView.adapter = catAdapter
 
         catAdapter.onItemClick = {
-           val intent = Intent(this, AboutOneCat::class.java)
-            AboutOneCat.putString()
-            startActivity(intent)
+            startActivity(AboutOneCat.createIntent(this, it))
         }
     }
 

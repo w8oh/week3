@@ -26,7 +26,7 @@ class AboutOneCat : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
-        val cat = intent.getParcelableExtra<FunCats>("cat")
+        val cat = intent.getParcelableExtra<FunCats>(CAT)
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_about_one_cat)

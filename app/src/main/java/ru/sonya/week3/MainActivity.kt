@@ -5,14 +5,16 @@ import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
+import com.mikepenz.fastadapter.FastAdapter
+import com.mikepenz.fastadapter.adapters.ItemAdapter
+import com.mikepenz.fastadapter.diff.FastAdapterDiffUtil
 
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var catList: List<FunCat>
-    private lateinit var catAdapter: CatAdapter
+    private lateinit var catAdapter: catAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,9 +27,6 @@ class MainActivity : AppCompatActivity() {
 
         val manager = LinearLayoutManager(this)
 
-        var catImage: ImageView;
-
-
         val catsTitles = mutableListOf<String>("Смешной кот", "Хихитбл кот", "Жесть смешной кот", "Котик хихи", "Забавный кот")
         val catsSubtitles = mutableListOf<String>("хихихи", "хахахха", "АХАХ", "вахзпхв", "апхзвыхща")
         val catsImages = mutableListOf<String>(
@@ -38,17 +37,22 @@ class MainActivity : AppCompatActivity() {
             "https://i.pinimg.com/564x/a2/5e/b2/a25eb22ecd9b58d8dc7326f6f93b36e4.jpg"
         )
 
-
         catList = catGenerator(100, catsTitles, catsSubtitles, catsImages)
 
-        catAdapter = CatAdapter()
-        catAdapter.catList = catList
-        recyclerView.layoutManager = manager
-        recyclerView.adapter = catAdapter
+        /*val itemAdapter = ItemAdapter<CatItem>()
+        val fastAdapter = FastAdapter.with(itemAdapter)
 
-        catAdapter.onItemClick = {
-            startActivity(AboutOneCat.createIntent(this, it))
-        }
+        recyclerView.setAdapter(fastAdapter)
+
+        val transform: (FunCat) -> CatItem = { }
+
+        itemAdapter.add(catList.map(transform))
+
+        fastAdapter.onClickListener = { view, adapter, item, position ->
+            startActivity(AboutOneCat.createIntent(this, catList[position]))
+            false
+        }*/
+
     }
 
     fun catGenerator(count:Int, catsTitles: MutableList<String>, catsSubtitles: MutableList<String>, catsImages: MutableList<String>): MutableList<FunCat> {

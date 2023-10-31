@@ -1,33 +1,30 @@
 package ru.sonya.week3
 
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.RequestManager
+import com.mikepenz.fastadapter.FastAdapter
+import com.mikepenz.fastadapter.items.AbstractItem
 
-class CatAdapter(): RecyclerView.Adapter<CatAdapter.CatViewHolder>()
+//не нужОн больше получается :(
+class catAdapter(): AbstractItem<catAdapter.CatViewHolder>()
 {
        var catList = listOf<FunCat>()
         set(value) {
             field = value
-            notifyDataSetChanged()
         }
 
     var onItemClick: ((FunCat) -> Unit)? = null
 
-    inner class CatViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+    inner class CatViewHolder(itemView: View) :  FastAdapter.ViewHolder<catAdapter>(itemView){
 
         private val imageView: ImageView = itemView.findViewById(R.id.imageView)
         private val textView1: TextView = itemView.findViewById(R.id.textView1)
         private val textView2: TextView = itemView.findViewById(R.id.textView2)
 
-        fun bind(position: Int) {
+        override fun bindView(item: catAdapter, payloads: List<Any>) {
             val cat = catList[position]
-            //this.imageView.setImageResource(cat.image)
             this.textView1.text = cat.title
             this.textView2.text = cat.subtitle
 
@@ -43,20 +40,17 @@ class CatAdapter(): RecyclerView.Adapter<CatAdapter.CatViewHolder>()
             }
         }
 
-        fun unbind() {
+        override fun unbindView(item: catAdapter) {
             this.itemView.setOnClickListener(null)
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CatViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.each_item, parent, false)
-        return CatViewHolder(view)
-    }
+    override val layoutRes: Int
+    get() = R.layout.activity_main
+    override val type: Int
+        get() = R.id.recyclerView
 
-    override fun getItemCount(): Int {
-        return catList.size
+    override fun getViewHolder(v: View): CatViewHolder {
+        return CatViewHolder(v)
     }
-
-    override fun onViewRecycled(holder: CatViewHolder) = holder.unbind()
-    override fun onBindViewHolder(holder: CatViewHolder, position: Int) = holder.bind(position)
 }

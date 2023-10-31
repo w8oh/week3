@@ -6,16 +6,19 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.RequestManager
 
-class CatAdapter (): RecyclerView.Adapter<CatAdapter.CatViewHolder>()
+class CatAdapter(activity: RequestManager): RecyclerView.Adapter<CatAdapter.CatViewHolder>()
 {
-       var catList = listOf<FunCats>()
+    val activity1 = activity
+       var catList = listOf<FunCat>()
         set(value) {
             field = value
             notifyDataSetChanged()
         }
 
-    var onItemClick: ((FunCats) -> Unit)? = null
+    var onItemClick: ((FunCat) -> Unit)? = null
 
     inner class CatViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
 
@@ -25,9 +28,16 @@ class CatAdapter (): RecyclerView.Adapter<CatAdapter.CatViewHolder>()
 
         fun bind(position: Int) {
             val cat = catList[position]
-            this.imageView.setImageResource(cat.image)
+            //this.imageView.setImageResource(cat.image)
             this.textView1.text = cat.title
             this.textView2.text = cat.subtitle
+
+            Glide
+                .with(itemView.context)
+                .load(cat.image)
+                .dontAnimate()
+                .into(imageView)
+
 
             this.itemView.setOnClickListener{
                 onItemClick?.invoke(cat)

@@ -9,9 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
 
-class CatAdapter(activity: RequestManager): RecyclerView.Adapter<CatAdapter.CatViewHolder>()
+class CatAdapter(): RecyclerView.Adapter<CatAdapter.CatViewHolder>()
 {
-    val activity1 = activity
        var catList = listOf<FunCat>()
         set(value) {
             field = value

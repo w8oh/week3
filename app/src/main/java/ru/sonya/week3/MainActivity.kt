@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
 
         catList = catGenerator(100, catsTitles, catsSubtitles, catsImages)
 
-        catAdapter = CatAdapter(Glide.with(this))
+        catAdapter = CatAdapter()
         catAdapter.catList = catList
         recyclerView.layoutManager = manager
         recyclerView.adapter = catAdapter

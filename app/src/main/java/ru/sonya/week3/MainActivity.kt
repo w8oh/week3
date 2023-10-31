@@ -9,7 +9,6 @@ import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.adapters.ItemAdapter
 import com.mikepenz.fastadapter.diff.FastAdapterDiffUtil
 
-
 class MainActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
@@ -39,19 +38,18 @@ class MainActivity : AppCompatActivity() {
 
         catList = catGenerator(100, catsTitles, catsSubtitles, catsImages)
 
-        /*val itemAdapter = ItemAdapter<CatItem>()
+        val itemAdapter = ItemAdapter<CatItem>()
         val fastAdapter = FastAdapter.with(itemAdapter)
 
         recyclerView.setAdapter(fastAdapter)
+        recyclerView.layoutManager = manager
 
-        val transform: (FunCat) -> CatItem = { }
-
-        itemAdapter.add(catList.map(transform))
+        itemAdapter.add(catList.map { CatItem(it.title, it.subtitle, it.image) })
 
         fastAdapter.onClickListener = { view, adapter, item, position ->
             startActivity(AboutOneCat.createIntent(this, catList[position]))
             false
-        }*/
+        }
 
     }
 

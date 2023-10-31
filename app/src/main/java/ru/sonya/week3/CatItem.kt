@@ -7,16 +7,18 @@ import com.bumptech.glide.Glide
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.items.AbstractItem
 
-open class CatItem: AbstractItem<CatItem.ViewHolder>() {
-    var title: String? = null
-    var subtitle: String? = null
+open class CatItem(
+    var title: String? = null,
+    var subtitle: String? = null,
     var image: String? = null
+): AbstractItem<CatItem.ViewHolder>() {
+
 
     override val type: Int
         get() = R.id.recyclerView
 
     override val layoutRes: Int
-        get() = R.layout.activity_main
+        get() = R.layout.each_item
 
     override fun getViewHolder(v: View): ViewHolder {
         return ViewHolder(v)

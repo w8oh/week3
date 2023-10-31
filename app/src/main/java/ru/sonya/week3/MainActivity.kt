@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity() {
         val generatedList = mutableListOf<FunCat>()
         for (i in 1..count) {
             generatedList.add( FunCat(
-                catsImages[(0..(catsImages.size-1)).random()],
+                catsImages[(0..<catsImages.size)).random()],
                 catsTitles[(0..(catsTitles.size-1)).random()],
                 catsSubtitles[(0..(catsSubtitles.size-1)).random()])
             )

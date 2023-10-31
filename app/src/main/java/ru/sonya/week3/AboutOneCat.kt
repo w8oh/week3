@@ -2,22 +2,18 @@ package ru.sonya.week3
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.BlendMode
-import android.graphics.BlendModeColorFilter
-import android.graphics.Color
-import android.graphics.PorterDuff
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
+import com.bumptech.glide.Glide
 
 class AboutOneCat : AppCompatActivity() {
 
     companion object {
 
         private const val CAT = "cat"
-        fun createIntent(context: Context, cat: FunCats): Intent {
+        fun createIntent(context: Context, cat: FunCat): Intent {
             return Intent(context, AboutOneCat::class.java).apply {
                 putExtra(CAT, cat)
             }
@@ -27,7 +23,7 @@ class AboutOneCat : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
-        val cat = intent.getParcelableExtra<FunCats>(CAT)
+        val cat = intent.getParcelableExtra<FunCat>(CAT)
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_about_one_cat)
@@ -49,7 +45,12 @@ class AboutOneCat : AppCompatActivity() {
 
             toolbar?.title = cat.title
             textView2.text = cat.subtitle
-            imageView.setImageResource(cat.image)
+
+            Glide
+                .with(this)
+                .load(cat.image)
+                .into(imageView)
+            //imageView.setImageResource(cat.image)
         }
 
     }

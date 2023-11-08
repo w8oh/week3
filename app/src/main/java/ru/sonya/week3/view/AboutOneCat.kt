@@ -1,4 +1,4 @@
-package ru.sonya.week3
+package ru.sonya.week3.view
 
 import android.content.Context
 import android.content.Intent
@@ -7,6 +7,8 @@ import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
+import ru.sonya.week3.model.FunCat
+import ru.sonya.week3.R
 
 class AboutOneCat : AppCompatActivity() {
 
@@ -39,7 +41,7 @@ class AboutOneCat : AppCompatActivity() {
 
         toolbar?.getNavigationIcon()?.setTint(getColor(R.color.white));
 
-        if (cat !=null) {
+        if (cat != null) {
             val textView2: TextView = findViewById(R.id.OneSubtitle)
             val imageView: ImageView = findViewById(R.id.OneImage)
 
@@ -50,7 +52,6 @@ class AboutOneCat : AppCompatActivity() {
                 .with(this)
                 .load(cat.image)
                 .into(imageView)
-            //imageView.setImageResource(cat.image)
         }
 
     }

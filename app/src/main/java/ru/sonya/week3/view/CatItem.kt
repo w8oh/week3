@@ -1,4 +1,4 @@
-package ru.sonya.week3
+package ru.sonya.week3.view
 
 import android.view.View
 import android.widget.ImageView
@@ -6,6 +6,7 @@ import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.items.AbstractItem
+import ru.sonya.week3.R
 
 open class CatItem(
     var title: String? = null,

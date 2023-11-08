@@ -1,4 +1,4 @@
-package ru.sonya.week3
+package ru.sonya.week3.model
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

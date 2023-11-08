@@ -1,4 +1,4 @@
-package ru.sonya.week3
+package ru.sonya.week3.viewModel
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

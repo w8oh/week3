@@ -2,7 +2,6 @@ package ru.sonya.week3.view
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,7 +18,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var factory: MainViewModelFactory
     private lateinit var viewModel: MainViewModel
     private lateinit var recyclerView: RecyclerView
-    private lateinit var catList: List<FunCat>
+    private lateinit var catList: MutableList<FunCat>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,9 +35,9 @@ class MainActivity : AppCompatActivity() {
         val itemAdapter = ItemAdapter<CatItem>()
         val fastAdapter = FastAdapter.with(itemAdapter)
 
-        viewModel.getCats()
+        viewModel.load(LoadEvent())
         viewModel.cats.observe(this, Observer { cats ->
-            catList = cats
+            catList = cats.cats
             recyclerView.also {
                 it.setAdapter(fastAdapter)
                 it.layoutManager = manager

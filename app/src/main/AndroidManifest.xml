@@ -14,11 +14,11 @@
         tools:targetApi="31">
 
         <activity
-            android:name=".AboutOneCat"
+            android:name=".view.AboutOneCat"
             android:exported="false"
-            android:parentActivityName=".MainActivity"/>
+            android:parentActivityName=".view.MainActivity"/>
         <activity
-            android:name=".MainActivity"
+            android:name=".view.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

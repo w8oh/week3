@@ -1,40 +1,28 @@
 package ru.sonya.week3.viewModel
 
-import android.content.Context
-import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asFlow
-import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.withContext
-import ru.sonya.week3.AboutOneCat
-import ru.sonya.week3.view.LoadEvent
 import ru.sonya.week3.view.MainUIEvent
 import ru.sonya.week3.model.CatsRepository
 import ru.sonya.week3.model.FunCat
 import ru.sonya.week3.view.MainEvent
-import ru.sonya.week3.view.MainFlow
 import ru.sonya.week3.view.MainState
-import kotlin.coroutines.coroutineContext
 
 class MainViewModel(
     private val repository: CatsRepository
 ) : ViewModel() {
 
     private val screenState = MutableLiveData<MainState>()
-    private var sharedFlow = MutableLiveData<MainFlow>()
+    private val _screenEvent = MutableLiveData<MainEvent>()
 
+    val screenEvent: LiveData<MainEvent> get() = _screenEvent
     val cats: LiveData<MainState> get() = screenState
 
     fun onEvent(event: MainUIEvent) {
         when (event) {
-            is LoadEvent -> {
-                getCats()
-            }
-            is MainEvent -> {
-
-            }
+            is MainUIEvent.LoadEvent -> getCats()
+            is MainUIEvent.OnItemClick -> openOneCat(event.item)
         }
     }
 
@@ -42,7 +30,7 @@ class MainViewModel(
         screenState.value = MainState(repository.getCats())
     }
 
-    private fun openOneCat(c: Context, cat: FunCat ) {
-
+    private fun openOneCat(cat: FunCat ) {
+        _screenEvent.value = MainEvent.OpenDetails(cat)
     }
 }

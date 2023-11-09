@@ -1,7 +1,10 @@
 package ru.sonya.week3.view
 
-interface MainUIEvent {}
+import ru.sonya.week3.model.FunCat
 
-class LoadEvent: MainUIEvent
+sealed interface MainUIEvent {
+    object LoadEvent : MainUIEvent
 
-class MainEvent: MainUIEvent
+    class OnItemClick(val item: FunCat): MainUIEvent
+}
+

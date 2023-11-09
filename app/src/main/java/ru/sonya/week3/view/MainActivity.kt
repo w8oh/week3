@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.adapters.ItemAdapter
-import ru.sonya.week3.AboutOneCat
 import ru.sonya.week3.model.FunCat
 import ru.sonya.week3.R
 import ru.sonya.week3.viewModel.MainViewModel
@@ -34,11 +33,17 @@ class MainActivity : AppCompatActivity() {
         val itemAdapter = ItemAdapter<CatItem>()
         val fastAdapter = FastAdapter.with(itemAdapter)
 
-        viewModel.onEvent(LoadEvent())
+        viewModel.onEvent(MainUIEvent.LoadEvent)
 
         viewModel.cats.observe(this) { cats ->
             catList = cats.cats
             itemAdapter.add(catList.map { CatItem(it.title, it.subtitle, it.image) })
+        }
+
+        viewModel.screenEvent.observe(this) {
+            when(it) {
+                is MainEvent.OpenDetails -> startActivity(AboutOneCat.createIntent(this, it.cat))
+            }
         }
 
         recyclerView.setAdapter(fastAdapter)
@@ -47,7 +52,7 @@ class MainActivity : AppCompatActivity() {
 
 
         fastAdapter.onClickListener = { view, adapter, item, position ->
-            startActivity(AboutOneCat.createIntent(this, catList[position]))
+            viewModel.onEvent(MainUIEvent.OnItemClick(catList[position]))
             false
         }
 

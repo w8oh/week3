@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        factory = MainViewModelFactory()
+        factory = MainViewModelFactory(this)
         viewModel = ViewModelProvider(this, factory).get(MainViewModel::class.java)
 
         recyclerView = findViewById(R.id.recyclerView)

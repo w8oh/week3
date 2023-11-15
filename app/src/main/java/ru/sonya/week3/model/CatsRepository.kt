@@ -1,24 +1,33 @@
 package ru.sonya.week3.model
 
-import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response
-import java.io.IOException
+import android.content.Context
+import android.widget.Toast
 
 class CatsRepository {
+    suspend fun getCats(context: Context): List<CatJson>? {
 
-    var mService: RetrofitServices = RetrofitCommon.retrofitService
-    var catList: List<CatJson>? = listOf()
+        val _context = context
+        val mService = RetrofitCommon.retrofitService
+        val response = mService.getCats()
 
-    fun getCats() = runBlocking {
-        mService = RetrofitCommon.retrofitService
-        catList = listOf()
-        catList = mService.getCats().body()
+        try {
+            if (response.isSuccessful && response.body() != null) {
+               return response.body()
+            } else {
+                Toast.makeText(
+                    _context,
+                    "Error Occurred: ${response.message()}",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        } catch (e: Exception) {
+            Toast.makeText(
+                _context,
+                "Error Occurred: ${e.message}",
+                Toast.LENGTH_LONG
+            ).show()
+        }
+        return response.body()
     }
 }
 

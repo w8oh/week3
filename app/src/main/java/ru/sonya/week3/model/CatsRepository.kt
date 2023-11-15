@@ -15,9 +15,6 @@ class CatsRepository {
     var mService: RetrofitServices = RetrofitCommon.retrofitService
     var catList: List<CatJson>? = listOf()
 
-    val coroutineExceptionHandler = CoroutineExceptionHandler{_, throwable ->
-        throwable.printStackTrace()
-    }
     fun getCats() = runBlocking {
         mService = RetrofitCommon.retrofitService
         catList = listOf()

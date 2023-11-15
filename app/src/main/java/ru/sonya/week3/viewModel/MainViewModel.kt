@@ -3,6 +3,11 @@ package ru.sonya.week3.viewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 import ru.sonya.week3.view.MainUIEvent
 import ru.sonya.week3.model.CatsRepository
 import ru.sonya.week3.model.FunCat
@@ -28,9 +33,12 @@ class MainViewModel(
     }
 
     private fun getCats() {
-        var cats = repository.getCats()
-        var catsList: List<FunCat> = cats!!.map { FunCat(it.url, it.breeds[0].name, it.breeds[0].description)}
-        screenState.value = MainState(catsList)
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.getCats()
+            val cats = repository.catList
+            val catsList: List<FunCat> = cats!!.map { FunCat(it.url, it.breeds[0].name, it.breeds[0].description)}
+            screenState.postValue(MainState(catsList))
+        }
     }
 
     private fun openOneCat(cat: FunCat ) {

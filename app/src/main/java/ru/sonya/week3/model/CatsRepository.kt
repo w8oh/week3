@@ -1,34 +1,27 @@
 package ru.sonya.week3.model
 
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response
-import java.io.Console
 import java.io.IOException
-
-
-
-
 
 class CatsRepository {
 
-    lateinit var mService: RetrofitServices
-    lateinit var catList: List<CatJson>
-    fun getCats(): List<CatJson>? {
+    var mService: RetrofitServices = RetrofitCommon.retrofitService
+    var catList: List<CatJson>? = listOf()
+
+    val coroutineExceptionHandler = CoroutineExceptionHandler{_, throwable ->
+        throwable.printStackTrace()
+    }
+    fun getCats() = runBlocking {
         mService = RetrofitCommon.retrofitService
         catList = listOf()
-
-        mService.getCats().enqueue(object : Callback<List<CatJson>> {
-            override fun onFailure(call: Call<List<CatJson>>, t: Throwable) {/**/
-            }
-
-            override fun onResponse(call: Call<List<CatJson>>, response: Response<List<CatJson>>) {
-                catList = response.body() as List<CatJson>
-            }
-        })
-
-        return catList
-
+        catList = mService.getCats().body()
     }
 }
 

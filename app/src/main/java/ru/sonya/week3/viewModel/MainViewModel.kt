@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import ru.sonya.week3.view.MainUIEvent
 import ru.sonya.week3.model.CatsRepository
 import ru.sonya.week3.model.FunCat
+import ru.sonya.week3.view.CatItem
 import ru.sonya.week3.view.MainEvent
 import ru.sonya.week3.view.MainState
 
@@ -27,7 +28,9 @@ class MainViewModel(
     }
 
     private fun getCats() {
-        screenState.value = MainState(repository.getCats())
+        var cats = repository.getCats()
+        var catsList: List<FunCat> = cats!!.map { FunCat(it.url, it.breeds[0].name, it.breeds[0].description)}
+        screenState.value = MainState(catsList)
     }
 
     private fun openOneCat(cat: FunCat ) {

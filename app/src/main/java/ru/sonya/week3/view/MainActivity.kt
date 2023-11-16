@@ -1,8 +1,8 @@
 package ru.sonya.week3.view
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var factory: MainViewModelFactory
     private lateinit var viewModel: MainViewModel
     private lateinit var recyclerView: RecyclerView
-    private lateinit var catList: MutableList<FunCat>
+    private  var catList: List<FunCat> = listOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,26 +28,43 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this, factory).get(MainViewModel::class.java)
 
         recyclerView = findViewById(R.id.recyclerView)
-        recyclerView.setHasFixedSize(true)
 
         val manager = LinearLayoutManager(this)
 
         val itemAdapter = ItemAdapter<CatItem>()
         val fastAdapter = FastAdapter.with(itemAdapter)
 
-        viewModel.load(LoadEvent())
-        viewModel.cats.observe(this, Observer { cats ->
-            catList = cats.cats
-            recyclerView.also {
-                it.setAdapter(fastAdapter)
-                it.layoutManager = manager
-                it.setHasFixedSize(true)
+        viewModel.onEvent(MainUIEvent.LoadEvent)
+
+        viewModel.cats.observe(this) { cats ->
+
+            cats.cats.fold(
+                onSuccess = {
+                    catList = it.orEmpty()
+                },
+                onFailure = {
+                    Toast.makeText(
+                        this,
+                        "Error Occurred: ${it.message}",
+                        Toast.LENGTH_LONG
+                    ).show() })
+
+            itemAdapter.add(catList!!.map { CatItem(it.title, it.subtitle, it.image) })
+        }
+
+        viewModel.screenEvent.observe(this) {
+            when (it) {
+                is MainEvent.OpenDetails -> startActivity(AboutOneCat.createIntent(this, it.cat))
             }
-            itemAdapter.add(catList.map { CatItem(it.title, it.subtitle, it.image) })
-        })
+        }
+
+        recyclerView.setAdapter(fastAdapter)
+        recyclerView.layoutManager = manager
+        recyclerView.setHasFixedSize(true)
+
 
         fastAdapter.onClickListener = { view, adapter, item, position ->
-            startActivity(AboutOneCat.createIntent(this, catList[position]))
+            viewModel.onEvent(MainUIEvent.OnItemClick(catList!![position]))
             false
         }
 

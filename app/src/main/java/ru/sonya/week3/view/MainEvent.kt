@@ -1,5 +1,7 @@
 package ru.sonya.week3.view
 
-interface MainEvent {}
+import ru.sonya.week3.model.FunCat
 
-class LoadEvent: MainEvent
+sealed interface MainEvent {
+    data class OpenDetails(val cat: FunCat): MainEvent
+}

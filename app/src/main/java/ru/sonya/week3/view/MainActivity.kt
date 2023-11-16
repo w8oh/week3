@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var factory: MainViewModelFactory
     private lateinit var viewModel: MainViewModel
     private lateinit var recyclerView: RecyclerView
-    private  var catList: List<FunCat>? = listOf()
+    private  var catList: List<FunCat> = listOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,24 +37,17 @@ class MainActivity : AppCompatActivity() {
         viewModel.onEvent(MainUIEvent.LoadEvent)
 
         viewModel.cats.observe(this) { cats ->
-            try {
-                var result = cats.cats.getOrNull()
 
-                if (result != null) {
-                    catList = cats.cats.getOrNull()
-                } else {
+            cats.cats.fold(
+                onSuccess = {
+                    catList = it.orEmpty()
+                },
+                onFailure = {
                     Toast.makeText(
                         this,
-                        "Error Occurred",
+                        "Error Occurred: ${it.message}",
                         Toast.LENGTH_LONG
-                    ).show() }
-            } catch (e: Exception) {
-                Toast.makeText(
-                    this,
-                    "Error Occurred: ${e.message}",
-                    Toast.LENGTH_LONG
-                ).show()
-            }
+                    ).show() })
 
             itemAdapter.add(catList!!.map { CatItem(it.title, it.subtitle, it.image) })
         }

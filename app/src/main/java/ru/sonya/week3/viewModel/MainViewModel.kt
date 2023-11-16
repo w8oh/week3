@@ -40,7 +40,7 @@ class MainViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             val cats = repository.getCats(_context)
             val catsList: List<FunCat> =
-                cats!!.map { FunCat(it.url, it.breeds[0].name, it.breeds[0].description) }
+                cats?.map { FunCat(it.url, it.breeds[0].name, it.breeds[0].description) }.orEmpty()
             screenState.postValue(MainState(catsList))
         }
     }

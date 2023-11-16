@@ -1,6 +1,7 @@
 package ru.sonya.week3.view
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,13 +18,13 @@ class MainActivity : AppCompatActivity() {
     private lateinit var factory: MainViewModelFactory
     private lateinit var viewModel: MainViewModel
     private lateinit var recyclerView: RecyclerView
-    private lateinit var catList: List<FunCat>
+    private  var catList: List<FunCat>? = listOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        factory = MainViewModelFactory(this)
+        factory = MainViewModelFactory()
         viewModel = ViewModelProvider(this, factory).get(MainViewModel::class.java)
 
         recyclerView = findViewById(R.id.recyclerView)
@@ -36,12 +37,30 @@ class MainActivity : AppCompatActivity() {
         viewModel.onEvent(MainUIEvent.LoadEvent)
 
         viewModel.cats.observe(this) { cats ->
-            catList = cats.cats
-            itemAdapter.add(catList.map { CatItem(it.title, it.subtitle, it.image) })
+            try {
+                var result = cats.cats.getOrNull()
+
+                if (result != null) {
+                    catList = cats.cats.getOrNull()
+                } else {
+                    Toast.makeText(
+                        this,
+                        "Error Occurred",
+                        Toast.LENGTH_LONG
+                    ).show() }
+            } catch (e: Exception) {
+                Toast.makeText(
+                    this,
+                    "Error Occurred: ${e.message}",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+
+            itemAdapter.add(catList!!.map { CatItem(it.title, it.subtitle, it.image) })
         }
 
         viewModel.screenEvent.observe(this) {
-            when(it) {
+            when (it) {
                 is MainEvent.OpenDetails -> startActivity(AboutOneCat.createIntent(this, it.cat))
             }
         }
@@ -52,7 +71,7 @@ class MainActivity : AppCompatActivity() {
 
 
         fastAdapter.onClickListener = { view, adapter, item, position ->
-            viewModel.onEvent(MainUIEvent.OnItemClick(catList[position]))
+            viewModel.onEvent(MainUIEvent.OnItemClick(catList!![position]))
             false
         }
 

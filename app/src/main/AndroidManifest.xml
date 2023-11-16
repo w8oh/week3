@@ -14,10 +14,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Week3"
         tools:targetApi="31">
-        <meta-data
-            android:name="com.google.android.actions"
-            android:resource="@xml/ic_baseline_arrow_back_24" />
-
         <activity
             android:name=".view.AboutOneCat"
             android:exported="false"

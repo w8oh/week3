@@ -9,6 +9,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
+import ru.sonya.week3.model.CatJson
 import ru.sonya.week3.view.MainUIEvent
 import ru.sonya.week3.model.CatsRepository
 import ru.sonya.week3.model.FunCat
@@ -17,14 +18,11 @@ import ru.sonya.week3.view.MainEvent
 import ru.sonya.week3.view.MainState
 
 class MainViewModel(
-    private val context: Context,
     private val repository: CatsRepository
 ) : ViewModel() {
 
     private val screenState = MutableLiveData<MainState>()
     private val _screenEvent = MutableLiveData<MainEvent>()
-
-    val _context = context
 
     val screenEvent: LiveData<MainEvent> get() = _screenEvent
     val cats: LiveData<MainState> get() = screenState
@@ -38,10 +36,11 @@ class MainViewModel(
 
     private fun getCats() {
         viewModelScope.launch(Dispatchers.IO) {
-            val cats = repository.getCats(_context)
-            val catsList: List<FunCat> =
-                cats?.map { FunCat(it.url, it.breeds[0].name, it.breeds[0].description) }.orEmpty()
-            screenState.postValue(MainState(catsList))
+            val cats = repository.getCats()
+            val funCats: Result<List<FunCat>?>
+                    = cats.map { value ->  value?.map { it -> FunCat(it.url, it.breeds[0].name, it.breeds[0].description) } }
+
+            screenState.postValue(MainState(funCats))
         }
     }
 

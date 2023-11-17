@@ -1,8 +1,10 @@
 package ru.sonya.week3.view
 
 import android.os.Bundle
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,6 +20,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var factory: MainViewModelFactory
     private lateinit var viewModel: MainViewModel
     private lateinit var recyclerView: RecyclerView
+    private lateinit var progressBar: ProgressBar
     private  var catList: List<FunCat> = listOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,6 +31,7 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this, factory).get(MainViewModel::class.java)
 
         recyclerView = findViewById(R.id.recyclerView)
+        progressBar = findViewById(R.id.progressBar)
 
         val manager = LinearLayoutManager(this)
 
@@ -37,7 +41,6 @@ class MainActivity : AppCompatActivity() {
         viewModel.onEvent(MainUIEvent.LoadEvent)
 
         viewModel.cats.observe(this) { cats ->
-
             cats.cats.fold(
                 onSuccess = {
                     catList = it.orEmpty()
@@ -49,19 +52,19 @@ class MainActivity : AppCompatActivity() {
                         Toast.LENGTH_LONG
                     ).show() })
 
-            itemAdapter.add(catList!!.map { CatItem(it.title, it.subtitle, it.image) })
-        }
-
-        viewModel.screenEvent.observe(this) {
-            when (it) {
-                is MainEvent.OpenDetails -> startActivity(AboutOneCat.createIntent(this, it.cat))
-            }
+            itemAdapter.add(catList.map { CatItem(it.title, it.subtitle, it.image) })
+            progressBar.isVisible = false
         }
 
         recyclerView.setAdapter(fastAdapter)
         recyclerView.layoutManager = manager
         recyclerView.setHasFixedSize(true)
 
+        viewModel.screenEvent.observe(this) {
+            when (it) {
+                is MainEvent.OpenDetails -> startActivity(AboutOneCat.createIntent(this, it.cat))
+            }
+        }
 
         fastAdapter.onClickListener = { view, adapter, item, position ->
             viewModel.onEvent(MainUIEvent.OnItemClick(catList!![position]))

@@ -6,6 +6,8 @@ class CatsRepository {
         val mService = RetrofitCommon.retrofitService
         val response = mService.getCats()
 
+        //так тут надо  как-то кэшировать получается
+
         return try {
             val body = response.body()
             Result.success(body)

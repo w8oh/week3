@@ -39,6 +39,8 @@ dependencies {
     implementation ("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
     implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
     implementation("com.github.bumptech.glide:glide:4.12.0")
+    implementation("androidx.room:room-runtime:2.3.0")
+    implementation("androidx.room:room-ktx:2.3.0")
     implementation ("com.mikepenz:fastadapter-extensions-expandable:5.7.0")
     implementation ("com.mikepenz:fastadapter:5.7.0")
     implementation ("com.mikepenz:fastadapter-extensions-binding:5.5.1")

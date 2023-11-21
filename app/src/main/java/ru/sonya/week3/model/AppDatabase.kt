@@ -5,7 +5,7 @@ import androidx.room.RoomDatabase
 
 
 @Database(
-    entities = [CatJson::class],
+    entities = [RoomCat::class],
     version = 1,
     exportSchema = false
 )

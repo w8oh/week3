@@ -10,12 +10,12 @@ import androidx.room.Query
 interface CatsDAO {
 
     @Insert
-    fun insertAll(vararg cats: CatJson)
+    fun insert(vararg cats: RoomCat)
 
     @Delete
-    fun delete(cat: CatJson)
+    fun delete(cat: RoomCat)
 
     @Query("SELECT * FROM DBCats")
-    fun getAllCats(): List<CatJson>?
+    fun getAllCats(): List<RoomCat>?
 
 }

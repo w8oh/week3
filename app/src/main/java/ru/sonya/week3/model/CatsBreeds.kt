@@ -1,5 +1,4 @@
 package ru.sonya.week3.model
-
 import com.google.gson.annotations.SerializedName
 
 data class Breeds (

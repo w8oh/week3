@@ -3,7 +3,7 @@ package ru.sonya.week3.model
 import android.app.Application
 import androidx.room.Room.databaseBuilder
 
-class DBApp: Application() {
+class DBApp : Application() {
 
     lateinit var db: AppDatabase
 
@@ -11,8 +11,9 @@ class DBApp: Application() {
         super.onCreate()
 
         db = databaseBuilder(
-                this,
-        AppDatabase::class.java, "populus-database"
+            this,
+            AppDatabase::class.java, "cats-database"
         ).build()
+
     }
 }

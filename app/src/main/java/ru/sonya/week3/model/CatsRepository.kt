@@ -1,6 +1,7 @@
 package ru.sonya.week3.model
 
 import android.content.SharedPreferences
+import java.util.Date
 
 class CatsRepository(
     private val db: AppDatabase,
@@ -14,14 +15,13 @@ class CatsRepository(
         val body = response.body()
         val catDao = db.catsDao()
         val hour = 3600000
-        var oldTime: Long = 0
-        var newTime: Long = 0
+        var refresh: Date
 
-        oldTime = sharedPreferences.getLong("old_time", oldTime)
-        newTime = sharedPreferences.getLong("time", newTime)
+        var time = sharedPreferences.getLong("time", 0)
+        var refreshTime = sharedPreferences.getLong("refresh_time", 0)
 
-        if ((newTime-oldTime)>3600000)
-        {
+
+        if ( time - refreshTime > hour) {
             catDao.deleteAllCats()
             body?.map {
                 catDao.insert(
@@ -33,6 +33,8 @@ class CatsRepository(
                     )
                 )
             }
+            refresh = Date(System.currentTimeMillis())
+            sharedPreferences.edit().putLong("refresh_time", refresh.getTime()).commit()
         }
 
         val roomCats: List<RoomCat>? = catDao.getAllCats()

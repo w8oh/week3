@@ -34,9 +34,9 @@ class MainActivity : AppCompatActivity() {
         date = Date(System.currentTimeMillis())
 
         val sharedPreferences = getSharedPreferences("data", MODE_PRIVATE)
-        val editor = sharedPreferences.edit()
-        editor.putLong("time", date.getTime())
-        editor.commit()
+        sharedPreferences.edit().putLong("time", date.getTime()).commit()
+
+
 
         factory = MainViewModelFactory((this.applicationContext as DBApp).db, sharedPreferences)
         viewModel = ViewModelProvider(this, factory).get(MainViewModel::class.java)
@@ -65,9 +65,6 @@ class MainActivity : AppCompatActivity() {
 
             itemAdapter.add(catList.map { CatItem(it.title, it.subtitle, it.image) })
             progressBar.isVisible = false
-            date = Date(System.currentTimeMillis())
-            editor.putLong("old_time", date.getTime())
-            editor.commit()
         }
 
         recyclerView.setAdapter(fastAdapter)
@@ -86,6 +83,5 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
-
 
 }

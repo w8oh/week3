@@ -18,4 +18,7 @@ interface CatsDAO {
     @Query("SELECT * FROM DBCats")
     fun getAllCats(): List<RoomCat>?
 
+    @Query("DELETE FROM DBCats")
+    fun deleteAllCats(): Void
+
 }

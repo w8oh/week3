@@ -10,5 +10,5 @@ import androidx.room.RoomDatabase
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
-    abstract val catsDao: CatsDAO?
+    abstract fun catsDao(): CatsDAO
 }

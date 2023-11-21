@@ -10,10 +10,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.adapters.ItemAdapter
-import ru.sonya.week3.model.FunCat
 import ru.sonya.week3.R
+import ru.sonya.week3.model.DBApp
+import ru.sonya.week3.model.FunCat
 import ru.sonya.week3.viewModel.MainViewModel
 import ru.sonya.week3.viewModel.MainViewModelFactory
+import java.util.Date
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -27,7 +30,15 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        factory = MainViewModelFactory()
+        var date: Date
+        date = Date(System.currentTimeMillis())
+
+        val sharedPreferences = getSharedPreferences("data", MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putLong("time", date.getTime())
+        editor.commit()
+
+        factory = MainViewModelFactory((this.applicationContext as DBApp).db, sharedPreferences)
         viewModel = ViewModelProvider(this, factory).get(MainViewModel::class.java)
 
         recyclerView = findViewById(R.id.recyclerView)
@@ -54,6 +65,9 @@ class MainActivity : AppCompatActivity() {
 
             itemAdapter.add(catList.map { CatItem(it.title, it.subtitle, it.image) })
             progressBar.isVisible = false
+            date = Date(System.currentTimeMillis())
+            editor.putLong("old_time", date.getTime())
+            editor.commit()
         }
 
         recyclerView.setAdapter(fastAdapter)

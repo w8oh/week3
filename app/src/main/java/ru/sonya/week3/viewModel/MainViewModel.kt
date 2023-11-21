@@ -1,6 +1,7 @@
 package ru.sonya.week3.viewModel
 
 import android.content.Context
+import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -22,7 +23,7 @@ class MainViewModel(
 ) : ViewModel() {
 
     private val screenState = MutableLiveData<MainState>()
-    private val _screenEvent = MutableLiveData<MainEvent>()
+    private val _screenEvent = SingleLiveEvent<MainEvent>()
 
     val screenEvent: LiveData<MainEvent> get() = _screenEvent
     val cats: LiveData<MainState> get() = screenState
@@ -38,7 +39,7 @@ class MainViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             val cats = repository.getCats()
             val funCats: Result<List<FunCat>?>
-                    = cats.map { value ->  value?.map { it -> FunCat(it.url, it.breeds[0].name, it.breeds[0].description) } }
+                    = cats.map { value ->  value?.map { it -> FunCat(image=it.url, title=it.name, subtitle=it.description) } }
 
             screenState.postValue(MainState(funCats))
         }

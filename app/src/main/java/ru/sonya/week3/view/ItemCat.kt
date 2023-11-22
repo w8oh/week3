@@ -8,11 +8,11 @@ import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.items.AbstractItem
 import ru.sonya.week3.R
 
-open class CatItem(
+open class ItemCat(
     var title: String? = null,
     var subtitle: String? = null,
     var image: String? = null
-): AbstractItem<CatItem.ViewHolder>() {
+): AbstractItem<ItemCat.ViewHolder>() {
 
 
     override val type: Int
@@ -25,11 +25,11 @@ open class CatItem(
         return ViewHolder(v)
     }
 
-    class ViewHolder(view: View) : FastAdapter.ViewHolder<CatItem>(view) {
+    class ViewHolder(view: View) : FastAdapter.ViewHolder<ItemCat>(view) {
         private val imageView: ImageView = itemView.findViewById(R.id.imageView)
         private val textView1: TextView = itemView.findViewById(R.id.textView1)
         private val textView2: TextView = itemView.findViewById(R.id.textView2)
-        override fun bindView(item: CatItem, payloads: List<Any>) {
+        override fun bindView(item: ItemCat, payloads: List<Any>) {
             textView1.text = item.title
             textView2.text = item.subtitle
 
@@ -40,7 +40,7 @@ open class CatItem(
                 .into(imageView)
         }
 
-        override fun unbindView(item: CatItem) {
+        override fun unbindView(item: ItemCat) {
             this.itemView.setOnClickListener(null)
         }
     }

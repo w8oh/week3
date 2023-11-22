@@ -1,4 +1,4 @@
-package ru.sonya.week3.model
+package ru.sonya.week3.model.retrofit2
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

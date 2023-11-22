@@ -11,12 +11,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.adapters.ItemAdapter
 import ru.sonya.week3.R
-import ru.sonya.week3.model.DBApp
-import ru.sonya.week3.model.FunCat
+import ru.sonya.week3.model.roomDB.DBApp
+import ru.sonya.week3.viewModel.FunCat
+import ru.sonya.week3.viewModel.MainEvent
+import ru.sonya.week3.viewModel.MainUIEvent
 import ru.sonya.week3.viewModel.MainViewModel
 import ru.sonya.week3.viewModel.MainViewModelFactory
 import java.util.Date
-
 
 class MainActivity : AppCompatActivity() {
 
@@ -24,19 +25,13 @@ class MainActivity : AppCompatActivity() {
     private lateinit var viewModel: MainViewModel
     private lateinit var recyclerView: RecyclerView
     private lateinit var progressBar: ProgressBar
-    private  var catList: List<FunCat> = listOf()
+    private var catList: List<FunCat> = listOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        var date: Date
-        date = Date(System.currentTimeMillis())
-
         val sharedPreferences = getSharedPreferences("data", MODE_PRIVATE)
-        sharedPreferences.edit().putLong("time", date.getTime()).commit()
-
-
 
         factory = MainViewModelFactory((this.applicationContext as DBApp).db, sharedPreferences)
         viewModel = ViewModelProvider(this, factory).get(MainViewModel::class.java)
@@ -46,24 +41,19 @@ class MainActivity : AppCompatActivity() {
 
         val manager = LinearLayoutManager(this)
 
-        val itemAdapter = ItemAdapter<CatItem>()
+        val itemAdapter = ItemAdapter<ItemCat>()
         val fastAdapter = FastAdapter.with(itemAdapter)
 
         viewModel.onEvent(MainUIEvent.LoadEvent)
 
         viewModel.cats.observe(this) { cats ->
-            cats.cats.fold(
-                onSuccess = {
-                    catList = it.orEmpty()
-                },
-                onFailure = {
-                    Toast.makeText(
-                        this,
-                        "Error Occurred: ${it.message}",
-                        Toast.LENGTH_LONG
-                    ).show() })
 
-            itemAdapter.add(catList.map { CatItem(it.title, it.subtitle, it.image) })
+            val date = Date()
+            sharedPreferences.edit().putLong("time", date.time).commit()
+
+            catList = cats.cats
+
+            itemAdapter.add(catList.map { ItemCat(it.title, it.subtitle, it.image) })
             progressBar.isVisible = false
         }
 

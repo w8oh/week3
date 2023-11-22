@@ -8,7 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import com.bumptech.glide.Glide
-import ru.sonya.week3.model.FunCat
+import ru.sonya.week3.viewModel.FunCat
 import ru.sonya.week3.R
 
 class AboutOneCat : AppCompatActivity() {

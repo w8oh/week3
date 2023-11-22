@@ -1,10 +1,9 @@
 package ru.sonya.week3.viewModel
 
-import android.content.Context
 import android.content.SharedPreferences
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import ru.sonya.week3.model.AppDatabase
+import ru.sonya.week3.model.roomDB.AppDatabase
 import ru.sonya.week3.model.CatsRepository
 
 class MainViewModelFactory(db: AppDatabase, _sharedPreferences: SharedPreferences) : ViewModelProvider.Factory {

@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         val sharedPreferences = getSharedPreferences("data", MODE_PRIVATE)
 
         factory = MainViewModelFactory((this.applicationContext as DBApp).db, sharedPreferences)
-        viewModel = ViewModelProvider(this, factory).get(MainViewModel::class.java)
+        viewModel = ViewModelProvider(this, factory)[MainViewModel::class.java]
 
         recyclerView = findViewById(R.id.recyclerView)
         progressBar = findViewById(R.id.progressBar)
@@ -47,17 +47,13 @@ class MainActivity : AppCompatActivity() {
         viewModel.onEvent(MainUIEvent.LoadEvent)
 
         viewModel.cats.observe(this) { cats ->
-
-            val date = Date()
-            sharedPreferences.edit().putLong("time", date.time).commit()
-
             catList = cats.cats
 
             itemAdapter.add(catList.map { ItemCat(it.title, it.subtitle, it.image) })
             progressBar.isVisible = false
         }
 
-        recyclerView.setAdapter(fastAdapter)
+        recyclerView.adapter = fastAdapter
         recyclerView.layoutManager = manager
         recyclerView.setHasFixedSize(true)
 
@@ -67,8 +63,8 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        fastAdapter.onClickListener = { view, adapter, item, position ->
-            viewModel.onEvent(MainUIEvent.OnItemClick(catList!![position]))
+        fastAdapter.onClickListener = { _, _, _, position ->
+            viewModel.onEvent(MainUIEvent.OnItemClick(catList[position]))
             false
         }
 

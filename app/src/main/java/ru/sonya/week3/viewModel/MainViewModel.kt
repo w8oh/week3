@@ -5,6 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import ru.sonya.week3.model.CatsRepository
 
@@ -16,15 +18,12 @@ class MainViewModel(
     private val _screenEvent = SingleLiveEvent<MainEvent>()
 
     init {
-        viewModelScope.launch {
-             repository.getItemsFlow().collect { cats ->
-                 val funCats: List<FunCat> = cats.map {
-                     FunCat( image = it.url, title = it.name, subtitle = it.description )
-                 }.orEmpty()
-
-                 screenState.postValue(MainState(funCats))
-             }
-        }
+        repository.getItemsFlow().onEach { cats ->
+            val funCats: List<FunCat> = cats.map {
+                FunCat(image = it.url, title = it.name, subtitle = it.description)
+            }
+            screenState.postValue(MainState(funCats))
+        }.launchIn(viewModelScope)
     }
 
     val screenEvent: LiveData<MainEvent> get() = _screenEvent
@@ -38,10 +37,14 @@ class MainViewModel(
     }
 
     private fun getCats() {
-
         viewModelScope.launch(Dispatchers.IO) {
-            repository.updateItems()
+            //TODO Показать загрузку
+            repository.updateItems().onFailure  {
+                    //TODO Ошибка загрузки
+            }
+            //TODO Скрыть загрузку
             //надо вернуть резалт и в случае ошибки вывести тоаст месседж в МэинАктивити? или че или как
+            // У тебя есть MainEvent, в котором можно создать object\class ошибки и эмитить в Activity через _screenEvent
         }
     }
 

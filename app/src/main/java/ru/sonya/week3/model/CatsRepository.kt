@@ -32,23 +32,6 @@ class CatsRepository(
                     val mService = RetrofitCommon.retrofitService
                     val body = mService.getCats().body()
 
-                  /*  catDao.insertAll(
-                        flow {
-                            emit(
-                                body?.map {
-                                    RoomCat(
-                                        url = it.url,
-                                        name = it.breeds[0].name,
-                                        description = it.breeds[0].description,
-                                        id = 0
-                                    )
-                                }.orEmpty()
-                            )
-                        }
-                    )
-                    если делать в инсертолл тип флоу билдер ругается(
-                    */
-
                         catDao.insertAll( body!!.map { RoomCat(
                             url = it.url,
                             name = it.breeds[0].name,
@@ -62,7 +45,6 @@ class CatsRepository(
                     }
 
                 } else {
-                    // так а тут что, без елс ругаются
                 }
             )
         } catch (e: Exception) {

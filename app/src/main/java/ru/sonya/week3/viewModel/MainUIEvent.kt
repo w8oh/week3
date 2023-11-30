@@ -1,6 +1,4 @@
-package ru.sonya.week3.view
-
-import ru.sonya.week3.model.FunCat
+package ru.sonya.week3.viewModel
 
 sealed interface MainUIEvent {
     object LoadEvent : MainUIEvent

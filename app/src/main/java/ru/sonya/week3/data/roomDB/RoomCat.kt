@@ -1,4 +1,4 @@
-package ru.sonya.week3.model.roomDB
+package ru.sonya.week3.data.roomDB
 import androidx.annotation.NonNull
 import androidx.room.ColumnInfo
 import androidx.room.Entity

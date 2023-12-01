@@ -1,4 +1,4 @@
-package ru.sonya.week3.neverUsed
+package ru.sonya.week3.ui.view.neverUsed
 
 import android.view.View
 import android.widget.ImageView
@@ -7,7 +7,7 @@ import com.bumptech.glide.Glide
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.items.AbstractItem
 import ru.sonya.week3.R
-import ru.sonya.week3.viewModel.FunCat
+import ru.sonya.week3.ui.viewModel.FunCat
 
 //не нужОн больше получается :(
 class catAdapter(): AbstractItem<catAdapter.CatViewHolder>()

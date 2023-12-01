@@ -1,4 +1,4 @@
-package ru.sonya.week3.view
+package ru.sonya.week3.ui.view
 
 import android.view.View
 import android.widget.ImageView

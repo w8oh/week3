@@ -1,23 +1,26 @@
-package ru.sonya.week3.model
+package ru.sonya.week3.data
 
 import android.content.SharedPreferences
 import androidx.core.content.edit
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import ru.sonya.week3.model.retrofit2.RetrofitCommon
-import ru.sonya.week3.model.roomDB.AppDatabase
-import ru.sonya.week3.model.roomDB.RoomCat
+import ru.sonya.week3.data.retrofit2.CatJson
+import ru.sonya.week3.data.retrofit2.RetrofitCommon
+import ru.sonya.week3.data.roomDB.AppDatabase
+import ru.sonya.week3.data.roomDB.RoomCat
+import ru.sonya.week3.domain.Repository
 import java.util.Date
+import javax.inject.Inject
 
 val refresh = Date()
 
-class CatsRepository(
+class CatsRepository (
     private val db: AppDatabase,
     private val sharedPreferences: SharedPreferences
-) {
+): Repository {
 
-    val catDao = db.catsDao()
-    suspend fun updateItems(): Result<Unit> {
+    private val catDao = db.catsDao()
+
+    override suspend fun updateItems(): Result<Unit> {
 
         val cashTime = 3600000
         val time = Date()
@@ -29,8 +32,7 @@ class CatsRepository(
 
                     catDao.deleteAllCats()
 
-                    val mService = RetrofitCommon.retrofitService
-                    val body = mService.getCats().body()
+                    val body: List<CatJson>? = RetrofitCommon.retrofitService.getCats().body()
 
                         catDao.insertAll( body!!.map { RoomCat(
                             url = it.url,
@@ -53,7 +55,7 @@ class CatsRepository(
 
     }
 
-    fun getItemsFlow(): Flow<List<RoomCat>> {
+    override fun getItemsFlow(): Flow<List<RoomCat>> {
         return catDao.getAllCats()
     }
 

@@ -1,4 +1,4 @@
-package ru.sonya.week3.view
+package ru.sonya.week3.ui.view
 
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat

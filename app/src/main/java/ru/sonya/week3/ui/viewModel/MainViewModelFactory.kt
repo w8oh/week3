@@ -1,12 +1,13 @@
-package ru.sonya.week3.viewModel
+package ru.sonya.week3.ui.viewModel
 
 import android.content.SharedPreferences
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import ru.sonya.week3.model.roomDB.AppDatabase
-import ru.sonya.week3.model.CatsRepository
+import ru.sonya.week3.data.roomDB.AppDatabase
+import ru.sonya.week3.data.CatsRepository
 
 class MainViewModelFactory(db: AppDatabase, _sharedPreferences: SharedPreferences) : ViewModelProvider.Factory {
+
 
     private val sharedPreferences = _sharedPreferences
     private val repository = CatsRepository(db, sharedPreferences)
@@ -17,5 +18,6 @@ class MainViewModelFactory(db: AppDatabase, _sharedPreferences: SharedPreference
         }
         throw IllegalArgumentException("ViewModel Not Found")
     }
+
 
 }

@@ -1,8 +1,9 @@
-package ru.sonya.week3.view
+package ru.sonya.week3.ui.view
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.ProgressBar
-import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
@@ -10,22 +11,29 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.adapters.ItemAdapter
+import dagger.hilt.android.AndroidEntryPoint
 import ru.sonya.week3.R
-import ru.sonya.week3.model.roomDB.DBApp
-import ru.sonya.week3.viewModel.FunCat
-import ru.sonya.week3.viewModel.MainEvent
-import ru.sonya.week3.viewModel.MainUIEvent
-import ru.sonya.week3.viewModel.MainViewModel
-import ru.sonya.week3.viewModel.MainViewModelFactory
-import java.util.Date
+import ru.sonya.week3.data.roomDB.AppDatabase
+import ru.sonya.week3.data.roomDB.DBApp
+import ru.sonya.week3.ui.viewModel.FunCat
+import ru.sonya.week3.ui.viewModel.MainEvent
+import ru.sonya.week3.ui.viewModel.MainUIEvent
+import ru.sonya.week3.ui.viewModel.MainViewModel
+import ru.sonya.week3.ui.viewModel.MainViewModelFactory
+import javax.inject.Inject
 
-class MainActivity : AppCompatActivity() {
+/*@AndroidEntryPoint*/
+class MainActivity: AppCompatActivity() {
 
     private lateinit var factory: MainViewModelFactory
     private lateinit var viewModel: MainViewModel
+
     private lateinit var recyclerView: RecyclerView
     private lateinit var progressBar: ProgressBar
+
+    //private val viewModel: MainViewModel by viewModels()
     private var catList: List<FunCat> = listOf()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,6 +68,7 @@ class MainActivity : AppCompatActivity() {
         viewModel.screenEvent.observe(this) {
             when (it) {
                 is MainEvent.OpenDetails -> startActivity(AboutOneCat.createIntent(this, it.cat))
+                else -> {}
             }
         }
 

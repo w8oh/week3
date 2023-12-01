@@ -1,4 +1,4 @@
-package ru.sonya.week3.model.roomDB
+package ru.sonya.week3.data.roomDB
 
 import androidx.room.Dao
 import androidx.room.Delete

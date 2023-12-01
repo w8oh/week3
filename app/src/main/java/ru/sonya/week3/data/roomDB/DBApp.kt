@@ -1,11 +1,13 @@
-package ru.sonya.week3.model.roomDB
+package ru.sonya.week3.data.roomDB
 
 import android.app.Application
 import androidx.room.Room.databaseBuilder
+import dagger.hilt.android.HiltAndroidApp
 
+/*@HiltAndroidApp*/
 class DBApp : Application() {
 
-    lateinit var db: AppDatabase
+   lateinit var db: AppDatabase
 
     override fun onCreate() {
         super.onCreate()
@@ -16,4 +18,5 @@ class DBApp : Application() {
         ).build()
 
     }
+
 }

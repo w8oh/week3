@@ -1,45 +1,47 @@
 package ru.sonya.week3.data
 
+import android.annotation.SuppressLint
 import android.content.SharedPreferences
 import androidx.core.content.edit
 import kotlinx.coroutines.flow.Flow
 import ru.sonya.week3.data.retrofit2.CatJson
 import ru.sonya.week3.data.retrofit2.RetrofitCommon
-import ru.sonya.week3.data.roomDB.AppDatabase
+import ru.sonya.week3.data.retrofit2.RetrofitServices
+import ru.sonya.week3.data.roomDB.CatsDAO
 import ru.sonya.week3.data.roomDB.RoomCat
-import ru.sonya.week3.domain.Repository
 import java.util.Date
 import javax.inject.Inject
 
 val refresh = Date()
 
-class CatsRepository (
-    private val db: AppDatabase,
-    private val sharedPreferences: SharedPreferences
-): Repository {
-
-    private val catDao = db.catsDao()
+class CatsRepository @Inject constructor(
+    private val sharedPreferences: SharedPreferences,
+    private val api: RetrofitServices,
+    private val dao: CatsDAO
+) : Repository {
 
     override suspend fun updateItems(): Result<Unit> {
 
-        val cashTime = 3600000
+        val cacheTime = 3600000
         val time = Date()
         val refreshTime = Date(sharedPreferences.getLong("refresh_time", 0))
 
         return try {
             Result.success(
-                if (time.time - refreshTime.time > cashTime) {
+                if (time.time - refreshTime.time > cacheTime) {
 
-                    catDao.deleteAllCats()
+                    dao.deleteAllCats()
 
-                    val body: List<CatJson>? = RetrofitCommon.retrofitService.getCats().body()
+                    val body: List<CatJson>? = api.getCats().body()
 
-                        catDao.insertAll( body!!.map { RoomCat(
+                    dao.insertAll(body!!.map {
+                        RoomCat(
                             url = it.url,
                             name = it.breeds[0].name,
                             description = it.breeds[0].description,
                             id = 0
-                        ) } )
+                        )
+                    })
 
 
                     sharedPreferences.edit {
@@ -56,7 +58,7 @@ class CatsRepository (
     }
 
     override fun getItemsFlow(): Flow<List<RoomCat>> {
-        return catDao.getAllCats()
+        return dao.getAllCats()
     }
 
 }

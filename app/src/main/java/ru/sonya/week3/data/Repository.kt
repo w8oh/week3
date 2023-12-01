@@ -1,11 +1,7 @@
-package ru.sonya.week3.domain
+package ru.sonya.week3.data
 
-import android.content.SharedPreferences
 import kotlinx.coroutines.flow.Flow
-import ru.sonya.week3.data.roomDB.AppDatabase
-import ru.sonya.week3.data.roomDB.DBApp
 import ru.sonya.week3.data.roomDB.RoomCat
-import java.util.Date
 
 interface Repository {
 

@@ -1,14 +1,12 @@
 package ru.sonya.week3.domain
 
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import ru.sonya.week3.data.Repository
 
 class UpdateCatsUseCase(
     repository: Repository
-) {
-    val _repository = repository
-    suspend operator fun invoke(): Result<Unit> {
+): UpdateUseCase {
+    private val _repository = repository
+    override suspend operator fun invoke(): Result<Unit> {
         return _repository.updateItems()
     }
 

@@ -9,20 +9,22 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import ru.sonya.week3.data.CatsRepository
-import ru.sonya.week3.domain.GetCatsUseCase
-import ru.sonya.week3.domain.UpdateCatsUseCase
+import ru.sonya.week3.domain.GetUseCase
+import ru.sonya.week3.domain.UpdateUseCase
+import javax.inject.Inject
 
-class MainViewModel(
-    private val repository: CatsRepository
+/*@AndroidEntryPoint*/
+@HiltViewModel
+class MainViewModel @Inject constructor(
+    private val getUseCase: GetUseCase,
+    private val updateUseCase: UpdateUseCase
 ) : ViewModel() {
 
     private val screenState = MutableLiveData<MainState>()
     private val _screenEvent = SingleLiveEvent<MainEvent>()
 
     init {
-        val getCatsUseCase = GetCatsUseCase(repository)
-        getCatsUseCase.invoke().onEach { cats ->
+        getUseCase.invoke().onEach { cats ->
             val funCats: List<FunCat> = cats.map {
                 FunCat(image = it.url, title = it.name, subtitle = it.description)
             }
@@ -43,9 +45,8 @@ class MainViewModel(
     private fun getCats() {
         viewModelScope.launch(Dispatchers.IO) {
             //TODO Показать загрузку
-            val updateCatsUseCase = UpdateCatsUseCase(repository)
-            updateCatsUseCase.invoke().onFailure  {
-                    //TODO Ошибка загрузки
+            updateUseCase.invoke().onFailure {
+                //TODO Ошибка загрузки
             }
             //TODO Скрыть загрузку
             //

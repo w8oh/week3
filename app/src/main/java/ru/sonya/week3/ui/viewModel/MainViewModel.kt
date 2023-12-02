@@ -1,5 +1,6 @@
 package ru.sonya.week3.ui.viewModel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -44,11 +45,14 @@ class MainViewModel @Inject constructor(
 
     private fun getCats() {
         viewModelScope.launch(Dispatchers.IO) {
-            //TODO Показать загрузку
+
+            _screenEvent.postValue(MainEvent.StartLoading())
+
             updateUseCase.invoke().onFailure {
-                //TODO Ошибка загрузки
+                _screenEvent.postValue(MainEvent.FailureLoading(it.message.toString()))
             }
-            //TODO Скрыть загрузку
+
+            _screenEvent.postValue(MainEvent.DoneLoading())
         }
     }
 

@@ -16,6 +16,8 @@ import ru.sonya.week3.ui.viewModel.MainEvent
 import ru.sonya.week3.ui.viewModel.MainUIEvent
 import ru.sonya.week3.ui.viewModel.MainViewModel
 import ru.sonya.week3.ui.viewModel.mapToView
+import android.util.Log
+import ru.sonya.week3.ui.viewModel.SingleLiveEvent
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -33,25 +35,31 @@ class MainActivity : AppCompatActivity() {
         progressBar = findViewById(R.id.progressBar)
 
         val manager = LinearLayoutManager(this)
-
         val itemAdapter = ItemAdapter<ItemCat>()
         val fastAdapter = FastAdapter.with(itemAdapter)
-
-        viewModel.onEvent(MainUIEvent.LoadEvent)
-
-        viewModel.cats.observe(this) { cats ->
-
-            itemAdapter.add(cats.cats.map(DtoCat::mapToView))
-            progressBar.isVisible = false
-        }
 
         recyclerView.adapter = fastAdapter
         recyclerView.layoutManager = manager
         recyclerView.setHasFixedSize(true)
 
+        viewModel.onEvent(MainUIEvent.LoadEvent)
+
+        viewModel.cats.observe(this) { cats ->
+            itemAdapter.add(cats.cats.map(DtoCat::mapToView))
+        }
+
         viewModel.screenEvent.observe(this) {
             when (it) {
                 is MainEvent.OpenDetails -> startActivity(AboutOneCat.createIntent(this, it.cat))
+                is MainEvent.StartLoading -> {
+                    recyclerView.isVisible = false
+                    progressBar.isVisible = true
+                }
+                is MainEvent.DoneLoading -> {
+                    progressBar.isVisible = false
+                    recyclerView.isVisible = true
+                }
+                is MainEvent.FailureLoading -> Log.w("MainActivity", "Cat-Loading is failured.")
                 else -> {}
             }
         }

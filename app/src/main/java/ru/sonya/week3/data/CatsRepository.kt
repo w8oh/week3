@@ -1,6 +1,7 @@
 package ru.sonya.week3.data
 
 import android.content.SharedPreferences
+import android.util.Log
 import androidx.core.content.edit
 import kotlinx.coroutines.flow.Flow
 import ru.sonya.week3.data.retrofit2.CatJson
@@ -28,7 +29,7 @@ class CatsRepository @Inject constructor(
         val time = Date()
         val refreshTime = Date(sharedPreferences.getLong("refresh_time", 0))
 
-        return runCatching  {
+        return runCatching {
             Result.success(
                 if (time.time - refreshTime.time > cacheTime) {
 
@@ -38,16 +39,15 @@ class CatsRepository @Inject constructor(
 
                     dao.insertAll(body!!.map { it.mapToRoom() })
 
-
                     sharedPreferences.edit {
                         putLong("refresh_time", refresh.time)
                     }
 
                 } else {
-                    //
                 }
-            )
-
+            ).onFailure {
+                Log.w("CatsRepository", "Cat-Getting is failured.")
+            }
         }
 
     }

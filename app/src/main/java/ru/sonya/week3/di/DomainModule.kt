@@ -5,9 +5,8 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import ru.sonya.week3.data.CatsRepository
 import ru.sonya.week3.domain.GetCatsUseCase
-import ru.sonya.week3.data.Repository
+import ru.sonya.week3.domain.Repository
 import ru.sonya.week3.domain.GetUseCase
 import ru.sonya.week3.domain.UpdateCatsUseCase
 import ru.sonya.week3.domain.UpdateUseCase

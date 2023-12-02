@@ -9,31 +9,31 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import ru.sonya.week3.domain.FunCat
 import ru.sonya.week3.domain.GetUseCase
 import ru.sonya.week3.domain.UpdateUseCase
+import ru.sonya.week3.domain.mapToDomain
 import javax.inject.Inject
 
-/*@AndroidEntryPoint*/
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val getUseCase: GetUseCase,
-    private val updateUseCase: UpdateUseCase
+    private val updateUseCase: UpdateUseCase,
+    getUseCase: GetUseCase
 ) : ViewModel() {
 
     private val screenState = MutableLiveData<MainState>()
     private val _screenEvent = SingleLiveEvent<MainEvent>()
 
+    val screenEvent: LiveData<MainEvent> get() = _screenEvent
+    val cats: LiveData<MainState> get() = screenState
+
     init {
-        getUseCase.invoke().onEach { cats ->
-            val funCats: List<FunCat> = cats.map {
-                FunCat(image = it.url, title = it.name, subtitle = it.description)
-            }
-            screenState.postValue(MainState(funCats))
+        getUseCase().onEach { cats ->
+            val dtoCats: List<DtoCat> = cats.map { it.mapToDomain() }
+            screenState.postValue(MainState(dtoCats))
         }.launchIn(viewModelScope)
     }
 
-    val screenEvent: LiveData<MainEvent> get() = _screenEvent
-    val cats: LiveData<MainState> get() = screenState
 
     fun onEvent(event: MainUIEvent) {
         when (event) {
@@ -49,15 +49,11 @@ class MainViewModel @Inject constructor(
                 //TODO Ошибка загрузки
             }
             //TODO Скрыть загрузку
-            //
-            // У тебя есть MainEvent, в котором можно создать object\class ошибки и эмитить в Activity через _screenEvent
-            // это оставлю на десерт, хочу пока с остальным разобраться
-
         }
     }
 
 
-    private fun openOneCat(cat: FunCat) {
+    private fun openOneCat(cat: DtoCat) {
         _screenEvent.value = MainEvent.OpenDetails(cat)
     }
 }

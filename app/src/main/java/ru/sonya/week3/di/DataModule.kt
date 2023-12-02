@@ -9,11 +9,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import retrofit2.Response
-import retrofit2.http.GET
 import ru.sonya.week3.data.CatsRepository
-import ru.sonya.week3.data.Repository
-import ru.sonya.week3.data.retrofit2.CatJson
+import ru.sonya.week3.domain.Repository
 import ru.sonya.week3.data.retrofit2.RetrofitCommon
 import ru.sonya.week3.data.retrofit2.RetrofitServices
 import ru.sonya.week3.data.roomDB.AppDatabase

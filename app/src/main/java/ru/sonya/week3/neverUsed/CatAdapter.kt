@@ -7,7 +7,7 @@ import com.bumptech.glide.Glide
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.items.AbstractItem
 import ru.sonya.week3.R
-import ru.sonya.week3.ui.viewModel.FunCat
+import ru.sonya.week3.domain.FunCat
 
 //не нужОн больше получается :(
 class catAdapter(): AbstractItem<catAdapter.CatViewHolder>()

@@ -1,18 +1,18 @@
 package ru.sonya.week3.data
 
-import android.annotation.SuppressLint
 import android.content.SharedPreferences
 import androidx.core.content.edit
 import kotlinx.coroutines.flow.Flow
 import ru.sonya.week3.data.retrofit2.CatJson
-import ru.sonya.week3.data.retrofit2.RetrofitCommon
 import ru.sonya.week3.data.retrofit2.RetrofitServices
 import ru.sonya.week3.data.roomDB.CatsDAO
 import ru.sonya.week3.data.roomDB.RoomCat
+import ru.sonya.week3.domain.FunCat
+import ru.sonya.week3.domain.Repository
 import java.util.Date
 import javax.inject.Inject
-
-val refresh = Date()
+import kotlinx.coroutines.flow.map
+import ru.sonya.week3.data.roomDB.mapToDomain
 
 class CatsRepository @Inject constructor(
     private val sharedPreferences: SharedPreferences,
@@ -22,11 +22,12 @@ class CatsRepository @Inject constructor(
 
     override suspend fun updateItems(): Result<Unit> {
 
+        val refresh = Date()
         val cacheTime = 3600000
         val time = Date()
         val refreshTime = Date(sharedPreferences.getLong("refresh_time", 0))
 
-        return try {
+        return runCatching  {
             Result.success(
                 if (time.time - refreshTime.time > cacheTime) {
 
@@ -49,16 +50,16 @@ class CatsRepository @Inject constructor(
                     }
 
                 } else {
+                    //
                 }
             )
-        } catch (e: Exception) {
-            Result.failure(e)
+
         }
 
     }
 
-    override fun getItemsFlow(): Flow<List<RoomCat>> {
-        return dao.getAllCats()
+    override fun getItemsFlow(): Flow<List<FunCat>> {
+        return dao.getAllCats().map { it.map { it.mapToDomain() } }
     }
 
 }

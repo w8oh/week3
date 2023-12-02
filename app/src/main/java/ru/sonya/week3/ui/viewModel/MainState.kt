@@ -1,5 +1,7 @@
 package ru.sonya.week3.ui.viewModel
 
+import ru.sonya.week3.domain.FunCat
+
 data class MainState (
-    val cats: List<FunCat>
+    val cats: List<DtoCat>
 )

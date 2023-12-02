@@ -12,6 +12,7 @@ import ru.sonya.week3.domain.Repository
 import java.util.Date
 import javax.inject.Inject
 import kotlinx.coroutines.flow.map
+import ru.sonya.week3.data.retrofit2.mapToRoom
 import ru.sonya.week3.data.roomDB.mapToDomain
 
 class CatsRepository @Inject constructor(
@@ -35,14 +36,7 @@ class CatsRepository @Inject constructor(
 
                     val body: List<CatJson>? = api.getCats().body()
 
-                    dao.insertAll(body!!.map {
-                        RoomCat(
-                            url = it.url,
-                            name = it.breeds[0].name,
-                            description = it.breeds[0].description,
-                            id = 0
-                        )
-                    })
+                    dao.insertAll(body!!.map { it.mapToRoom() })
 
 
                     sharedPreferences.edit {

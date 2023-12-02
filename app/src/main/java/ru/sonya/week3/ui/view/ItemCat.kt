@@ -1,4 +1,4 @@
-package ru.sonya.week3.view
+package ru.sonya.week3.ui.view
 
 import android.view.View
 import android.widget.ImageView
@@ -7,6 +7,8 @@ import com.bumptech.glide.Glide
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.items.AbstractItem
 import ru.sonya.week3.R
+import ru.sonya.week3.domain.FunCat
+import ru.sonya.week3.ui.viewModel.DtoCat
 
 open class ItemCat(
     var title: String? = null,
@@ -45,3 +47,17 @@ open class ItemCat(
         }
     }
 }
+
+    fun ItemCat.mapToDomain() =
+        DtoCat(
+            image = image,
+            title = title,
+            subtitle = subtitle
+        )
+
+    fun FunCat.mapToUi() =
+        ItemCat(
+            image = image,
+            title = title,
+            subtitle = subtitle
+        )

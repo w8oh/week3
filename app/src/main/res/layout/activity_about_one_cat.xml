@@ -4,49 +4,43 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.AboutOneCat">
+    tools:context=".ui.view.AboutOneCat">
 
-    <ImageView
-        android:id="@+id/OneImage"
-        android:layout_width="404dp"
-        android:layout_height="368dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="4dp"
-        android:scaleType="centerCrop"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar2"
-        app:srcCompat="@drawable/blem" />
-
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar2"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:title="Breed of cat"
-        app:titleTextColor="@color/white" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/OneSubtitle"
-        android:layout_width="400dp"
-        android:layout_height="281dp"
-        android:layout_marginStart="6dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="6dp"
-        android:layout_marginBottom="4dp"
-        android:text="Кот смешной ваще! ха-ха-ха"
-        android:textColor="@color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/OneImage"
-        app:layout_constraintVertical_bias="0.0" />
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar2"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="?attr/actionBarTheme"
+            app:title="Breed of cat"
+            app:titleTextColor="@color/white" />
+
+        <ImageView
+            android:id="@+id/OneImage"
+            android:layout_width="match_parent"
+            android:layout_height="368dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/blem" />
+
+        <TextView
+            android:id="@+id/OneSubtitle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="6dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="6dp"
+            android:layout_marginBottom="6dp"
+            android:text="Very cool cat!"
+            android:textColor="@color/black" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

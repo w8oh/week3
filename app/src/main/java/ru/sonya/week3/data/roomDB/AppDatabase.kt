@@ -1,4 +1,4 @@
-package ru.sonya.week3.model.roomDB
+package ru.sonya.week3.data.roomDB
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

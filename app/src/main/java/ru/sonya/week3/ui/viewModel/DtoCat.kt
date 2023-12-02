@@ -26,3 +26,10 @@ fun ItemCat.mapToViewModal() =
         subtitle = subtitle
     )
 
+fun FunCat.mapToDomain() =
+    DtoCat(
+        image = image,
+        title = title,
+        subtitle = subtitle
+    )
+

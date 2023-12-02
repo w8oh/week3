@@ -34,6 +34,7 @@ class MainActivity : AppCompatActivity() {
         recyclerView = findViewById(R.id.recyclerView)
         progressBar = findViewById(R.id.progressBar)
 
+        val tag = "MainActivity"
         val manager = LinearLayoutManager(this)
         val itemAdapter = ItemAdapter<ItemCat>()
         val fastAdapter = FastAdapter.with(itemAdapter)
@@ -59,7 +60,7 @@ class MainActivity : AppCompatActivity() {
                     progressBar.isVisible = false
                     recyclerView.isVisible = true
                 }
-                is MainEvent.FailureLoading -> Log.w("MainActivity", "Cat-Loading is failured.")
+                is MainEvent.FailureLoading -> Log.w(tag, "Cat-Loading is failured.")
                 else -> {}
             }
         }

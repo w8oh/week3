@@ -1,6 +1,5 @@
 package ru.sonya.week3.ui.viewModel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,10 +9,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import ru.sonya.week3.domain.FunCat
 import ru.sonya.week3.domain.GetUseCase
 import ru.sonya.week3.domain.UpdateUseCase
-import ru.sonya.week3.domain.mapToDomain
 import javax.inject.Inject
 
 @HiltViewModel
